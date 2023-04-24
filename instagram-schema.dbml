@@ -1,0 +1,48 @@
+table users {
+  id serial [pk]
+  created_at TIMESTAMP
+  updated_at TIMESTAMP
+  
+}
+
+table posts {
+  id serial [pk]
+  created_at TIMESTAMP
+  updated_at TIMESTAMP
+  content varchar
+  user_id int [ref: > users.id]
+  url varchar(200)
+  post_like_id int [ref: > post_likes.id]
+  latitude real
+  longitude real
+}
+
+table tagged_user {
+  id serial [pk]
+  created_at TIMESTAMP
+  updated_at TIMESTAMP
+  post_id int [ref: > posts.id]
+  user_id int [ref: > users.id]
+}
+
+table comments {
+  id serial [pk]
+  created_at TIMESTAMP
+  updated_at TIMESTAMP
+  title varchar
+  user_id int [ref: > users.id]
+  post_id int [ref: > posts.id]
+  user_comment_like int [ref: > comment_likes.id]
+}
+
+table post_likes {
+  id serial [pk]
+  created_at TIMESTAMP
+  updated_at TIMESTAMP
+}
+
+table comment_likes {
+  id serial [pk]
+  created_at TIMESTAMP
+  updated_at TIMESTAMP
+}
