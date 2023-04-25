@@ -2,7 +2,18 @@ table users {
   id serial [pk]
   created_at TIMESTAMP
   updated_at TIMESTAMP
-  
+  username varchar(30) [unique]
+  bio varchar(400)
+  avatar varchar(200)
+  phone varchar(15) [unique]
+  email varchar(100) 
+  password varchar(100) 
+  status_id int [ref: - status.id] 
+}
+
+table status {
+  id serial [pk]
+  title varchar(50)
 }
 
 table posts {
@@ -12,7 +23,6 @@ table posts {
   content varchar
   user_id int [ref: > users.id]
   url varchar(200)
-  post_like_id int [ref: > post_likes.id]
   latitude real
   longitude real
 }
@@ -32,17 +42,43 @@ table comments {
   title varchar
   user_id int [ref: > users.id]
   post_id int [ref: > posts.id]
-  user_comment_like int [ref: > comment_likes.id]
+}
+
+table hashtag {
+  id serial [pk]
+  title varchar
+  created_at TIMESTAMP
+
 }
 
 table post_likes {
   id serial [pk]
   created_at TIMESTAMP
   updated_at TIMESTAMP
+  user_name int [ref: - users.id]
 }
 
 table comment_likes {
   id serial [pk]
   created_at TIMESTAMP
   updated_at TIMESTAMP
+  post_id int [ref: - posts.id]
+}
+
+table post_hashtag {
+  id serial [pk]
+  hashtag_id int [ref: > hashtag.id]
+  post_id int [ref: < posts.id]
+}
+
+table comment_hashtag {
+  id serial [pk]
+  hashtag_id int [ref: > hashtag.id]
+  comment_id int [ref: < comments.id]
+}
+
+table bio_hashtag {
+  id serial [pk]
+  hashtag_id int [ref: > hashtag.id]
+  user_id int [ref: < users.id]
 }
