@@ -8,7 +8,7 @@ table users {
   phone varchar(15) [unique]
   email varchar(100) 
   password varchar(100) 
-  status_id int [ref: - status.id] 
+  status_id INTEGER [ref: - status.id] 
 }
 
 table status {
@@ -21,18 +21,18 @@ table posts {
   created_at TIMESTAMP
   updated_at TIMESTAMP
   content varchar
-  user_id int [ref: > users.id]
+  user_id INTEGER [ref: > users.id]
   url varchar(200)
-  latitude real
-  longitude real
+  latitude REAL
+  longitude REAL
 }
 
 table tagged_user {
   id serial [pk]
   created_at TIMESTAMP
   updated_at TIMESTAMP
-  post_id int [ref: > posts.id]
-  user_id int [ref: > users.id]
+  post_id INTEGER [ref: > posts.id]
+  user_id INTEGER [ref: > users.id]
 }
 
 table comments {
@@ -40,8 +40,8 @@ table comments {
   created_at TIMESTAMP
   updated_at TIMESTAMP
   title varchar
-  user_id int [ref: > users.id]
-  post_id int [ref: > posts.id]
+  user_id INTEGER [ref: > users.id]
+  post_id INTEGER [ref: > posts.id]
 }
 
 table hashtag {
@@ -55,30 +55,38 @@ table post_likes {
   id serial [pk]
   created_at TIMESTAMP
   updated_at TIMESTAMP
-  user_name int [ref: - users.id]
+  user_name INTEGER [ref: - users.id]
 }
 
 table comment_likes {
   id serial [pk]
   created_at TIMESTAMP
   updated_at TIMESTAMP
-  post_id int [ref: - posts.id]
+  post_id INTEGER [ref: - posts.id]
 }
 
 table post_hashtag {
   id serial [pk]
-  hashtag_id int [ref: > hashtag.id]
-  post_id int [ref: < posts.id]
+  hashtag_id INTEGER [ref: > hashtag.id]
+  post_id INTEGER [ref: < posts.id]
 }
 
 table comment_hashtag {
   id serial [pk]
-  hashtag_id int [ref: > hashtag.id]
-  comment_id int [ref: < comments.id]
+  hashtag_id INTEGER [ref: > hashtag.id]
+  comment_id INTEGER [ref: < comments.id]
 }
 
 table bio_hashtag {
   id serial [pk]
-  hashtag_id int [ref: > hashtag.id]
-  user_id int [ref: < users.id]
+  hashtag_id INTEGER [ref: > hashtag.id]
+  user_id INTEGER [ref: < users.id]
+}
+
+table follower {
+  id serial [pk]
+  created_at TIMESTAMP
+  updated_at TIMESTAMP
+  leader_id INTEGER [ref: > users.id]
+  follower_id INTEGER [ref: > users.id]
 }
