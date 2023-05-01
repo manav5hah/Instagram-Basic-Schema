@@ -106,3 +106,21 @@ CREATE TABLE followers (
 	follower_id int NOT NULL REFERENCES users(id) ON DELETE CASCADE,
 	UNIQUE (leader_id, follower_id)
 )
+
+CREATE INDEX users_username_idx ON users(username);
+
+-- 	Benchmarking using the index 
+
+-- 		With index it took 0.046 ms
+--		Without index it took 1.5 ms
+
+EXPLAIN ANALYSE SELECT *
+FROM users where username='Emil30';
+
+-- Size consumed by the users table is 872 Kb
+
+SELECT pg_size_pretty(pg_relation_size('users')) as size_consumed;
+
+-- Size consumed by the index of the users table is 184 Kb
+
+SELECT pg_size_pretty(pg_relation_size('users_username_idx')) as size_consumed;```
