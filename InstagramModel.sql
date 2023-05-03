@@ -109,6 +109,10 @@ CREATE TABLE followers (
 
 CREATE INDEX users_username_idx ON users(username);
 
+-- Getting all indices in database
+
+SELECT relname from pg_class where relkind='i';
+
 -- 	Benchmarking using the index 
 
 -- 		With index it took 0.046 ms
@@ -123,4 +127,32 @@ SELECT pg_size_pretty(pg_relation_size('users')) as size_consumed;
 
 -- Size consumed by the index of the users table is 184 Kb
 
-SELECT pg_size_pretty(pg_relation_size('users_username_idx')) as size_consumed;```
+SELECT pg_size_pretty(pg_relation_size('users_username_idx')) as size_consumed;
+
+-- Benchmarking
+
+EXPLAIN SELECT username FROM users JOIN comments ON comments.id = users.id where users.username='Alyson14'; 	-- Explain alone will giveout statistics and not execute the query.
+
+EXPLAIN ANALYSE SELECT username FROM users JOIN comments ON comments.id = users.id where users.username='Alyson14'; 	-- Explain analyse will giveout statistics and execute the query.
+
+-- Simple Common Table Expression
+
+WITH tags AS (
+	SELECT user_id, created_at FROM caption_tags
+	UNION ALL
+	SELECT user_id, created_at FROM photo_tags
+)
+SELECT username, tags.created_at 
+FROM users 
+JOIN tags ON users.id = tags.user_id
+WHERE tags.created_at < '2010-01-07';
+
+-- Recursive Common Table Expression
+
+WITH RECURSIVE countdown(val) AS (
+	SELECT 5 AS val   							-- Initial value
+	UNION
+	SELECT val-1 FROM countdown WHERE val > 1 	-- Recursive function
+)
+
+SELECT * FROM COUNTDOWN;
