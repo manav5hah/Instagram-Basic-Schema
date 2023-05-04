@@ -131,7 +131,7 @@ SELECT pg_size_pretty(pg_relation_size('users_username_idx')) as size_consumed;
 
 -- Benchmarking
 
-EXPLAIN SELECT username FROM users JOIN comments ON comments.id = users.id where users.username='Alyson14'; 	-- Explain alone will giveout statistics and not execute the query.
+EXPLAIN SELECT username FROM users JOIN comments ON comments.id = users.id where users.username='Alyson14'; 		-- Explain alone will giveout statistics and not execute the query.
 
 EXPLAIN ANALYSE SELECT username FROM users JOIN comments ON comments.id = users.id where users.username='Alyson14'; 	-- Explain analyse will giveout statistics and execute the query.
 
@@ -150,7 +150,7 @@ WHERE tags.created_at < '2010-01-07';
 -- Recursive Common Table Expression
 
 WITH RECURSIVE countdown(val) AS (
-	SELECT 5 AS val   							-- Initial value
+	SELECT 5 AS val   				-- Initial value
 	UNION
 	SELECT val-1 FROM countdown WHERE val > 1 	-- Recursive function
 )
