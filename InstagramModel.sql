@@ -156,3 +156,11 @@ WITH RECURSIVE countdown(val) AS (
 )
 
 SELECT * FROM COUNTDOWN;
+
+WITH RECURSIVE suggestion(leader_id, follower_id, depth) AS (
+	SELECT leader_id, follower_id, 1 FROM followers WHERE followers.id = 1
+	UNION
+	SELECT followers.leader_id, followers.follower_id, depth+1 FROM followers JOIN suggestion on suggestion.leader_id = followers.follower_id WHERE depth < 3
+)
+
+SELECT distinct users.id, users.username FROM suggestion JOIN users ON users.id = suggestion.follower_id WHERE depth > 1;
